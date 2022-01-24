@@ -1,13 +1,15 @@
 import React from "react";
-import Post from "./Post";
-
-function PostList({ posts }: any) {
+import { Link } from "react-router-dom";
+function PostList({ posts }: { posts: [] }) {
   return (
-    <div>
-      {posts.map((post: any) => (
-        <Post key={post.id} post={post} />
+    <ul>
+      {posts.map((post: { id: number; title: string; body: string }) => (
+        <li key={post.id}>
+          <Link to={`/${post.id}`}>{post.title}</Link>
+        </li>
       ))}
-    </div>
+    </ul>
   );
 }
+
 export default PostList;

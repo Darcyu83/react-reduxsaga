@@ -1,13 +1,11 @@
 import React from "react";
 
-function Post({ post }: any) {
-  const { title, body } = post;
+function Post({ post }: { post: { id: number; title: string; body: string } }) {
   return (
     <div>
-      <h1>{title}</h1>
-      <p>{body}</p>
+      <h1>{post.title}</h1>
+      <h1>{post.body}</h1>
     </div>
   );
 }
-
 export default Post;

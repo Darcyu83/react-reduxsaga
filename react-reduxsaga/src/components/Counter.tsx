@@ -1,16 +1,20 @@
-interface ICounterProps {
-  amount: number;
+import React from "react";
+function Counter({
+  count,
+  onIncrease,
+  onDecrease,
+}: {
+  count: number;
   onIncrease: () => void;
   onDecrease: () => void;
-}
-
-function Counter({ amount, onIncrease, onDecrease }: ICounterProps) {
+}) {
   return (
     <div>
-      <h1>{amount}</h1>
-      <button onClick={onIncrease}> +1 </button>
-      <button onClick={onDecrease}> -1 </button>
+      <h1>{count}</h1>
+      <button onClick={onIncrease}>+</button>
+      <button onClick={onDecrease}>-</button>
     </div>
   );
 }
+
 export default Counter;

@@ -1,13 +1,16 @@
+import { Route, Routes } from "react-router-dom";
 import CounterContainer from "./containers/CounterContainer";
-import PostContainer from "./containers/PostContainer";
-import PostListContainer from "./containers/PostListContainer";
+import PostListPage from "./pages/PostListPage";
+import PostPage from "./pages/PostPage";
 
 function App() {
   return (
     <div>
-      <CounterContainer />
-      <PostListContainer />
-      <PostContainer />
+      <Routes>
+        <Route path="/counter" element={<CounterContainer />} />
+        <Route path="/" element={<PostListPage />} />
+        <Route path="/:id" element={<PostPage />} />
+      </Routes>
     </div>
   );
 }

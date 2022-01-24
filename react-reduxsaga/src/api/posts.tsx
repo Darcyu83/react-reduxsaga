@@ -1,4 +1,4 @@
-const sleep = (n: number) => new Promise((resolve) => setTimeout(resolve, n));
+import axios from "axios";
 
 const posts = [
   {
@@ -18,12 +18,21 @@ const posts = [
   },
 ];
 
-export const getPosts = async () => {
-  await sleep(500);
+const sleep = (miliSec: number) => {
+  return new Promise((resolve) => setTimeout(resolve, miliSec));
+};
+
+export const getPosts1 = async () => {
+  await sleep(3000);
   return posts;
 };
 
+export const getPosts = async () => {
+  const response = await axios.get("/posts");
+  return response.data;
+};
+
 export const getPostById = async (id: number) => {
-  await sleep(500);
-  return posts.find((post) => post.id === id);
+  const response = await axios.get(`/posts/${id}`);
+  return response.data;
 };

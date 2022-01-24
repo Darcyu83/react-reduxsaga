@@ -1,25 +1,38 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import {} from "react-router-dom";
 import Post from "../components/Post";
-import { getPostById } from "../modules/posts";
+import { getPostThunk, goToHome } from "../modules/posts";
 
-function PostContainer() {
-  const { data, loading, error } = useSelector(
-    (state: any) => state.posts.post
-  );
+function PostContainer({ postId }: { postId: number }) {
+  const { data, isLoading, error } = useSelector(
+    (state: {
+      posts: {
+        post: {
+          isLoading: boolean;
+          data: { id: number; title: string; body: string };
+          error: boolean;
+        };
+      };
+    }) => state.posts.post
+  ) || { isLoading: false, data: null, error: null };
+
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   useEffect(() => {
-    dispatch(getPostById(2));
-  }, [dispatch]);
+    if (data) return;
+    dispatch<any>(getPostThunk(postId));
+  }, [postId, dispatch, data]);
 
-  if (loading) return <div>로딩중...</div>;
-  if (error) return <div>에러 발생!</div>;
-
+  if (isLoading && !data) return <div>Loading...</div>;
+  if (error) return <div>{error}</div>;
   return (
     <div>
-      PostContiner <hr />
-      {data && <Post key={data.id} post={data} />}
+      <button onClick={() => navigate("/")}>goToHome</button>
+      {data && <Post post={data} />}
     </div>
   );
 }
+
 export default PostContainer;

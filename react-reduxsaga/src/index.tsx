@@ -1,18 +1,25 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { Provider } from "react-redux";
-import { createStore, applyMiddleware } from "redux";
 import App from "./App";
-import rootReducer from "./modules";
-import logger from "redux-logger";
-import { composeWithDevTools } from "redux-devtools-extension";
+import { Provider } from "react-redux";
+import { applyMiddleware, createStore } from "redux";
+import rootReducer, { rootSaga } from "./modules";
 import ReduxThunk from "redux-thunk";
+import logger from "redux-logger";
 import { BrowserRouter } from "react-router-dom";
+import axios from "axios";
+import createSagaMiddleware from "redux-saga";
 
+const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
   rootReducer,
-  composeWithDevTools(applyMiddleware(ReduxThunk, logger))
+  applyMiddleware(ReduxThunk, sagaMiddleware, logger)
 );
+
+sagaMiddleware.run(rootSaga);
+
+axios.defaults.baseURL =
+  process.env.NODE_ENV === "development" ? "/" : "https://api.velog.io/";
 
 ReactDOM.render(
   <React.StrictMode>
